@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Tools Directory</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+
+    .search-box {
+      padding: 10px;
+      width: 60%;
+      font-size: 1rem;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+      background-color: #fff;
+    }
+
+    /* Filters */
+    .filters {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .filters div {
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 10px 20px;
+      background-color: #f4f4f9;
+      border-radius: 25px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .filters div:hover {
+      background-color: #e74c3c;
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .filters .active {
+      background-color: #e74c3c;
+      color: #fff;
+    }
+
+    /* AI Tools Listing */
+    .listing-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .listing-item {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .listing-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .listing-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .listing-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .listing-item p {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .listing-item .price {
+      font-size: 1.2rem;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+
+    .listing-item a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .listing-item a:hover {
+      background-color: #e74c3c;
+    }
+
+    /* No Tool Found Section */
+    .no-tools {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 300px;
+      margin-top: 50px;
+    }
+
+    .no-tools h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .no-tools img {
+      width: 200px;
+      height: auto;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    footer p {
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>AI Tools Directory</h1>
+      <input type="text" id="searchInput" placeholder="Search for a tool..." class="search-box">
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="filters">
+      <div id="all" class="filter-option active">All</div>
+      <div id="chatbots" class="filter-option">Chatbots</div>
+      <div id="image-generation" class="filter-option">Image Generation</div>
+      <div id="text-analysis" class="filter-option">Text Analysis</div>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="listing-container" id="listingContainer">
+        <!-- Tool listings will be displayed here -->
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 AI Tools Directory. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // AI Tool Data
+    const tools = [
+      { id: 1, name: 'ChatGPT', description: 'A generative AI chatbot developed by OpenAI.', link: 'https://openai.com/chatgpt/overview/', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/512px-ChatGPT_logo.svg.png', category: 'chatbots' },
+      { id: 2, name: 'DALL·E', description: 'AI for creating images from textual descriptions.', link: 'https://openai.com/dall-e', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOyvrXYCcCbaykwNkgdrWQF5Jh-xORVRupLg&s', category: 'image-generation' },
+      { id: 3, name: 'MidJourney', description: 'Generative AI for creative image synthesis.', link: 'https://www.midjourney.com/', image: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', category: 'image-generation' },
+      { id: 4, name: 'Google Bard', description: 'Google’s AI chatbot for answering queries and creative tasks.', link: 'https://bard.google.com/', image: 'https://www.valueleaf.com/blog/wp-content/uploads/2024/01/Google-Bard.jpg', category: 'chatbots' },
+      { id: 5, name: 'Grammarly', description: 'AI tool for text analysis and writing enhancement.', link: 'https://www.grammarly.com/', image: 'https://i0.wp.com/www.kevinpurcell.org/wp-content/uploads/2021/01/grammarly-logo.jpg?fit=1920%2C1920&ssl=1', category: 'text-analysis' },
+      { id: 6, name: 'Hemingway Editor', description: 'An editor that helps improve readability and clarity.', link: 'https://hemingwayapp.com/', image: 'https://blog.lulu.com/wp-content/uploads/2021/02/020221-HemingwayEditor-Blog.png', category: 'text-analysis' },
+      { id: 7, name: 'Jasper', description: 'AI writing assistant for content generation.', link: 'https://www.jasper.ai/', image: 'https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/asset/file/831f5107-be4e-441c-af65-924e84f41a6a/Frame_203.png?t=1699053347', category: 'text-analysis' },
+      { id: 8, name: 'DeepAI', description: 'AI tools for generating art, text, and deep learning models.', link: 'https://deepai.org/', image: 'https://images.deepai.org/press-item-image/342a23cf89d74220aea52fe1146fd988/48-thumb.jpg', category: 'image-generation' },
+      { id: 9, name: 'Runway', description: 'Generative AI platform for creative projects.', link: 'https://runwayml.com/', image: 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2023/03/runway.png', category: 'image-generation' },
+    ];
+
+    // Function to display tools
+    const displayTools = (tools) => {
+      const container = document.getElementById('listingContainer');
+      container.innerHTML = ''; // Clear existing content
+
+      if (tools.length === 0) {
+        container.innerHTML = `
+          <div class="no-tools">
+            <h1>No tools found</h1>
+            <img src="https://images.pond5.com/cartoon-image-broken-robot-illustration-074655397_iconl.jpeg" alt="No tools">
+          </div>`;
+      }
+
+      tools.forEach(tool => {
+        const item = document.createElement('div');
+        item.classList.add('listing-item');
+
+        item.innerHTML = `
+          <img src="${tool.image || 'https://images.pond5.com/cartoon-image-broken-robot-illustration-074655397_iconl.jpeg'}" alt="${tool.name}">
+          <h3>${tool.name}</h3>
+          <p>${tool.description}</p>
+          <a href="${tool.link}" target="_blank">Visit Tool</a>
+        `;
+
+        container.appendChild(item);
+      });
+    };
+
+    // Display all tools by default
+    displayTools(tools);
+
+    // Category filter functionality
+    document.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        // Remove active class from all filters
+        document.querySelectorAll('.filter-option').forEach(filter => filter.classList.remove('active'));
+        
+        // Add active class to the clicked filter
+        e.target.classList.add('active');
+        
+        const category = e.target.id;
+        let filteredTools;
+
+        if (category === 'all') {
+          filteredTools = tools;
+        } else {
+          filteredTools = tools.filter(tool => tool.category === category);
+        }
+
+        displayTools(filteredTools);
+      });
+    });
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filteredTools = tools.filter(tool => 
+        tool.name.toLowerCase().includes(searchTerm) || 
+        tool.description.toLowerCase().includes(searchTerm)
+      );
+      displayTools(filteredTools);
+    });
+  </script>
+</body>
+</html>
